@@ -35,7 +35,6 @@ my %terminal = (
 sub set_titlebar {
     my ($title, @optional) = @_;
     $title = q{ } unless defined $title;
-    @optional = qw{} unless @optional;
     my $type = _is_supported();
 
     if ( $type ) {
@@ -47,7 +46,7 @@ sub set_titlebar {
                          $terminal{$type}{post}, @optional, "\n";
         }
     }
-    else {
+    elsif ( @optional ) {
         print STDOUT @optional, "\n";
     }
     return;
@@ -111,10 +110,13 @@ Sets the titlebar to {$title} or clears the titlebar if {$title} is
 undefined.   
 
 On terminals that require printing escape codes to the terminal, a newline
-character is also printed to the terminal.  If {@optional_text} is given, it
+character is also printed to the terminal.  If { @optional_text } is given, it
 will be printed to the terminal prior to the newline.  Thus, to keep terminal
 output cleaner, use {set_titlebar()} in place of a {print()} statement to
 set the titlebar and print at the same time.
+
+If the terminal is not supported, set_titlebar silently continues, printing
+{ @optional_text } if any.
 
 = BUGS
 

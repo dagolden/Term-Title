@@ -39,6 +39,9 @@ USAGE
     keep terminal output cleaner, use "set_titlebar()" in place of a
     "print()" statement to set the titlebar and print at the same time.
 
+    If the terminal is not supported, set_titlebar silently continues,
+    printing @optional_text if any.
+
 BUGS
     Please report any bugs or feature using the CPAN Request Tracker. Bugs
     can be submitted through the web interface at

@@ -53,10 +53,13 @@ Sets the titlebar to C<<< $title >>> or clears the titlebar if C<<< $title >>> i
 undefined.   
 
 On terminals that require printing escape codes to the terminal, a newline
-character is also printed to the terminal.  If C<<< @optional_text >>> is given, it
+character is also printed to the terminal.  If C<<<  @optional_text  >>> is given, it
 will be printed to the terminal prior to the newline.  Thus, to keep terminal
 output cleaner, use C<<< set_titlebar() >>> in place of a C<<< print() >>> statement to
 set the titlebar and print at the same time.
+
+If the terminal is not supported, set_titlebar silently continues, printing
+C<<<  @optional_text  >>> if any.
 
 =head1 BUGS
 
