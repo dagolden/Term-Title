@@ -16,39 +16,51 @@ use Exporter;
 our @ISA = 'Exporter';
 our @EXPORT_OK = qw/set_titlebar/;
 
-# encodings by terminal type
+# encodings by terminal type -- except for mswin32 get matched as regex
+# against $ENV{TERM}
 # code ref gets title and text to print
 my %terminal = (
-    xterm => {
+    'xterm|rxvt' => {
         pre => "\033]2;",
         post => "\007",
     },
-    dumb => sub { shift; print STDOUT @_, "\n" },
+    'mswin32' => sub {
+        my ($title, @optional) = @_;
+        my $c = Win32::Console->new();
+        $c->Title($title);
+        print STDOUT @optional, "\n";
+    },
 );
 
 sub set_titlebar {
     my ($title, @optional) = @_;
-    $title = q{} unless defined $title;
+    $title = q{ } unless defined $title;
     @optional = qw{} unless @optional;
-    my $type = $ENV{TERM};
+    my $type = _is_supported();
 
-    if ( $^O eq 'MSWin32' ) {
-        if ( eval { require Win32::Console } ) {
-            my $c = Win32::Console->new();
-            $c->Title($title);
-        }
-        else {
-            warn "Term::Title: Win32::Console needed to set terminal title\n";
-        }
-        print STDOUT @optional, "\n";
-    }
-    elsif ( $type && $terminal{$type} ) {
+    if ( $type ) {
         if ( ref $terminal{$type} eq 'CODE' ) {
             $terminal{$type}->( $title, @optional );
         }
         elsif (ref $terminal{$type} eq 'HASH' ) {
             print STDOUT $terminal{$type}{pre},  $title, 
                          $terminal{$type}{post}, @optional, "\n";
+        }
+    }
+    else {
+        print STDOUT @optional, "\n";
+    }
+    return;
+}
+
+sub _is_supported {
+    if ( $^O eq 'MSWin32' ) {
+        return 'mswin32' if eval { require Win32::Console };
+    }
+    else {
+        return unless $ENV{TERM};
+        for my $k ( keys %terminal ) {
+            return $k if $ENV{TERM} =~ /^(?:$k)/;
         }
     }
     return;
@@ -86,6 +98,7 @@ appropriate escape sequences to set the terminal title based on the value of
 Currently, supported terminals include:
 
 * xterm
+* rxvt
 * Win32 console
 
 = USAGE

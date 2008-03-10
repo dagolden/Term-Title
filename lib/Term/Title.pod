@@ -35,6 +35,10 @@ xterm
 
 =item *
 
+rxvt
+
+=item *
+
 Win32 console
 
 =back

@@ -12,9 +12,10 @@ use Test::More;
 
 plan tests => 5;
 
+
 require_ok( 'Term::Title' );
 
-can_ok( 'Term::Title', 'set_titlebar' );
+can_ok( 'Term::Title', 'set_titlebar', '_is_supported' );
 
 Term::Title->import('set_titlebar');
 
@@ -24,10 +25,15 @@ can_ok( 'main', 'set_titlebar' );
 local *STDOUT;
 open STDOUT, ">>&=0" or die "Couldn't reclaim STDOUT from Test::More";
 
+diag "Term appears to be '$ENV{TERM}'";
+
 SKIP:
 {
-    skip "Automated testing not supported", 3
+    skip "Automated testing not supported", 2
         if $ENV{AUTOMATED_TESTING};
+
+    skip "Term::Title not supported on this terminal type", 2
+        unless Term::Title::_is_supported();
 
     my $phrase = "Hello";
 
