@@ -8,7 +8,38 @@
 use strict;
 use warnings;
 
-use Test::More tests => 1;
+use Test::More;
+
+plan tests => 5;
 
 require_ok( 'Term::Title' );
 
+can_ok( 'Term::Title', 'set_titlebar' );
+
+Term::Title->import('set_titlebar');
+
+can_ok( 'main', 'set_titlebar' );
+
+# reclaim STDOUT from Test::More
+local *STDOUT;
+open STDOUT, ">>&=0" or die "Couldn't reclaim STDOUT from Test::More";
+
+SKIP:
+{
+    skip "Automated testing not supported", 3
+        if $ENV{AUTOMATED_TESTING};
+
+    my $phrase = "Hello";
+
+    set_titlebar("[$phrase]","# Setting title to ", "'[$phrase]'");
+    print STDERR "\n# Do you see '[$phrase]' in the title bar (or tab) of this window? (y/n)\n";
+    my $answer = <STDIN>;
+    ok( substr(lc $answer, 0, 1) eq 'y', "Title set correctly" );
+
+    # clear
+    set_titlebar();
+    print STDERR "\n# Has the title bar (or tab) been cleared? (y/n)\n";
+    $answer = <STDIN>;
+    ok( substr(lc $answer, 0, 1) eq 'y', "Title cleared correctly" );
+
+}

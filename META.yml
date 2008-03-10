@@ -3,14 +3,15 @@ name: Term-Title
 version: 0.01
 author:
   - 'David Golden <dagolden@cpan.org>'
-abstract: Add abstract here
+abstract: Portable API to set the terminal titlebar
 license: apache
 resources:
   license: http://apache.org/licenses/LICENSE-2.0
 requires:
+  Exporter: 0
   perl: 5.004
 build_requires:
-  Test::More: 0.47
+  Test::More: 0.62
 provides:
   Term::Title:
     file: lib/Term/Title.pm

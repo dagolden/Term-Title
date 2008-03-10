@@ -12,6 +12,48 @@ use warnings;
 our $VERSION = '0.01';
 $VERSION = eval $VERSION; ## no critic
 
+use Exporter;
+our @ISA = 'Exporter';
+our @EXPORT_OK = qw/set_titlebar/;
+
+# encodings by terminal type
+# code ref gets title and text to print
+my %terminal = (
+    xterm => {
+        pre => "\033]2;",
+        post => "\007",
+    },
+    dumb => sub { shift; print STDOUT @_, "\n" },
+);
+
+sub set_titlebar {
+    my ($title, @optional) = @_;
+    $title = q{} unless defined $title;
+    @optional = qw{} unless @optional;
+    my $type = $ENV{TERM};
+
+    if ( $^O eq 'MSWin32' ) {
+        if ( eval { require Win32::Console } ) {
+            my $c = Win32::Console->new();
+            $c->Title($title);
+        }
+        else {
+            warn "Term::Title: Win32::Console needed to set terminal title\n";
+        }
+        print STDOUT @optional, "\n";
+    }
+    elsif ( $type && $terminal{$type} ) {
+        if ( ref $terminal{$type} eq 'CODE' ) {
+            $terminal{$type}->( $title, @optional );
+        }
+        elsif (ref $terminal{$type} eq 'HASH' ) {
+            print STDOUT $terminal{$type}{pre},  $title, 
+                         $terminal{$type}{post}, @optional, "\n";
+        }
+    }
+    return;
+}
+
 1;
 
 __END__
@@ -20,7 +62,7 @@ __END__
 
 = NAME
 
-Term::Title - Add abstract here
+Term::Title - Portable API to set the terminal titlebar
 
 = VERSION
 
@@ -28,13 +70,38 @@ This documentation describes version %%VERSION%%.
 
 = SYNOPSIS
 
-    use Term::Title;
+    use Term::Title 'set_titlebar';
+
+    set_titlebar("This goes into the title");
+
+    set_titlebar("Title", "And also print this to the terminal");
 
 = DESCRIPTION
 
+Term::Title provides an abstraction for setting the titlebar (or title tab)
+across different types of terminals.  For *nix terminals, it prints the
+appropriate escape sequences to set the terminal title based on the value of
+{$ENV{TERM}}.  On Windows, it uses [Win32::Console] to set the title directly.  
+
+Currently, supported terminals include:
+
+* xterm
+* Win32 console
 
 = USAGE
 
+== {set_titlebar()}
+
+    set_titlebar( $title, @optional_text );
+
+Sets the titlebar to {$title} or clears the titlebar if {$title} is 
+undefined.   
+
+On terminals that require printing escape codes to the terminal, a newline
+character is also printed to the terminal.  If {@optional_text} is given, it
+will be printed to the terminal prior to the newline.  Thus, to keep terminal
+output cleaner, use {set_titlebar()} in place of a {print()} statement to
+set the titlebar and print at the same time.
 
 = BUGS
 
@@ -47,6 +114,8 @@ existing test-file that illustrates the bug or desired feature.
 
 = SEE ALSO
 
+* [Win32::Console]
+* [http://www.ibiblio.org/pub/Linux/docs/HOWTO/Xterm-Title]
 
 = AUTHOR
 

@@ -4,7 +4,7 @@
 
 =head1 NAME
 
-Term::Title - Add abstract here
+Term::Title - Portable API to set the terminal titlebar
 
 =head1 VERSION
 
@@ -12,11 +12,47 @@ This documentation describes version 0.01.
 
 =head1 SYNOPSIS
 
-     use Term::Title;
+     use Term::Title 'set_titlebar';
+ 
+     set_titlebar("This goes into the title");
+ 
+     set_titlebar("Title", "And also print this to the terminal");
 
 =head1 DESCRIPTION
 
+Term::Title provides an abstraction for setting the titlebar (or title tab)
+across different types of terminals.  For *nix terminals, it prints the
+appropriate escape sequences to set the terminal title based on the value of
+C<<< $ENV{TERM} >>>.  On Windows, it uses L<Win32::Console> to set the title directly.  
+
+Currently, supported terminals include:
+
+=over
+
+=item *
+
+xterm
+
+=item *
+
+Win32 console
+
+=back
+
 =head1 USAGE
+
+=head2 C<<< set_titlebar() >>>
+
+     set_titlebar( $title, @optional_text );
+
+Sets the titlebar to C<<< $title >>> or clears the titlebar if C<<< $title >>> is 
+undefined.   
+
+On terminals that require printing escape codes to the terminal, a newline
+character is also printed to the terminal.  If C<<< @optional_text >>> is given, it
+will be printed to the terminal prior to the newline.  Thus, to keep terminal
+output cleaner, use C<<< set_titlebar() >>> in place of a C<<< print() >>> statement to
+set the titlebar and print at the same time.
 
 =head1 BUGS
 
@@ -28,6 +64,18 @@ When submitting a bug or request, please include a test-file or a patch to an
 existing test-file that illustrates the bug or desired feature.
 
 =head1 SEE ALSO
+
+=over
+
+=item *
+
+L<Win32::Console>
+
+=item *
+
+L<http://www.ibiblio.org/pub/Linux/docs/HOWTO/Xterm-Title>
+
+=back
 
 =head1 AUTHOR
 

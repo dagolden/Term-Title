@@ -18,9 +18,11 @@ my $build = $class->new(
 #   create_makefile_pl  => 'traditional',
     requires => {
         'perl' => '5.004',
+        'Exporter' => 0,
+        ( $^O eq 'MSWin32' ? ( "Win32::Console" => 0 ) : () ),
     },
     build_requires => {
-        'Test::More' => 0.47,
+        'Test::More' => 0.62,
     },
     meta_add            => { 
         no_index => { 
@@ -29,4 +31,3 @@ my $build = $class->new(
     },
 );
 $build->create_build_script;
-
