@@ -6,6 +6,11 @@
 
 Revision history for Term-Title
 
+0.02 Sat Mar 15 07:48:08 EDT 2008
+
+    - Changed: tests requiring manual verification won't fail on a buffered
+      newline; now requires "y" or "n" explictly
+    
 0.01 Sun Mar  9 18:23:03 2008
 
     - initial release

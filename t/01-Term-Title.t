@@ -12,6 +12,27 @@ use Test::More;
 
 plan tests => 5;
 
+#--------------------------------------------------------------------------#
+# y_n
+#--------------------------------------------------------------------------#
+
+sub y_n {
+    my ($prompt) = @_;
+    my $answer;
+    while (1) {
+        print STDERR "# $prompt (y/n)?\n";
+        $answer = <STDIN>;
+        last if $answer =~ /^[yn]/i;
+        print STDERR "# Please answer 'y' or 'n'\n";
+    }
+    return $answer =~ /^y/i;
+}
+
+
+#--------------------------------------------------------------------------#
+# tests start here
+#--------------------------------------------------------------------------#
+
 
 require_ok( 'Term::Title' );
 
@@ -38,14 +59,15 @@ SKIP:
     my $phrase = "Hello";
 
     set_titlebar("[$phrase]","# Setting title to ", "'[$phrase]'");
-    print STDERR "\n# Do you see '[$phrase]' in the title bar (or tab) of this window? (y/n)\n";
-    my $answer = <STDIN>;
-    ok( substr(lc $answer, 0, 1) eq 'y', "Title set correctly" );
+    print STDERR "\n#  (y/n)\n";
+    my $y_n = y_n(
+        "Do you see '[$phrase]' in the title bar (or tab) of this window?"
+    );
+    ok( $y_n, "Title set correctly" );
 
     # clear
     set_titlebar();
-    print STDERR "\n# Has the title bar (or tab) been cleared? (y/n)\n";
-    $answer = <STDIN>;
-    ok( substr(lc $answer, 0, 1) eq 'y', "Title cleared correctly" );
+    $y_n = y_n( "Has the title bar (or tab) been cleared?" );
+    ok( $y_n, "Title cleared correctly" );
 
 }
