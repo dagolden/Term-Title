@@ -8,7 +8,7 @@ Term::Title - Portable API to set the terminal titlebar
 
 =head1 VERSION
 
-This documentation describes version 0.02.
+This documentation describes version 0.03.
 
 =head1 SYNOPSIS
 
@@ -36,6 +36,10 @@ xterm
 =item *
 
 rxvt
+
+=item *
+
+screen
 
 =item *
 

@@ -2,7 +2,7 @@ NAME
     Term::Title - Portable API to set the terminal titlebar
 
 VERSION
-    This documentation describes version 0.02.
+    This documentation describes version 0.03.
 
 SYNOPSIS
          use Term::Title 'set_titlebar';
@@ -23,6 +23,8 @@ DESCRIPTION
     *   xterm
 
     *   rxvt
+
+    *   screen
 
     *   Win32 console
 

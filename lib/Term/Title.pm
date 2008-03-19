@@ -102,6 +102,7 @@ Currently, supported terminals include:
 
 * xterm
 * rxvt
+* screen
 * Win32 console
 
 = USAGE
