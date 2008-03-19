@@ -9,7 +9,7 @@ package Term::Title;
 use strict;
 use warnings;
 
-our $VERSION = '0.02';
+our $VERSION = '0.03';
 $VERSION = eval $VERSION; ## no critic
 
 use Exporter;
@@ -23,6 +23,10 @@ my %terminal = (
     'xterm|rxvt' => {
         pre => "\033]2;",
         post => "\007",
+    },
+    'screen' => {
+        pre => "\ek",
+        post => "\e\\",
     },
     'mswin32' => sub {
         my ($title, @optional) = @_;

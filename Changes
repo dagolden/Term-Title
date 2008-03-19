@@ -6,6 +6,10 @@
 
 Revision history for Term-Title
 
+0.03
+
+    - Added: support for 'screen' terminals (RT#34236 from David Precious)
+
 0.02 Sat Mar 15 07:48:08 EDT 2008
 
     - Changed: tests requiring manual verification won't fail on a buffered
