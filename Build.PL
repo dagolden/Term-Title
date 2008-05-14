@@ -25,6 +25,9 @@ my $build = $class->new(
         'Test::More' => 0.62,
     },
     meta_add            => { 
+        configure_requires => {
+          'Module::Build' => 0.28,
+        },
         no_index => { 
             directory => [ qw/ examples inc t /],
         } 

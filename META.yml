@@ -1,6 +1,6 @@
 ---
 name: Term-Title
-version: 0.03
+version: 0.04
 author:
   - 'David Golden <dagolden@cpan.org>'
 abstract: Portable API to set the terminal titlebar
@@ -15,7 +15,7 @@ build_requires:
 provides:
   Term::Title:
     file: lib/Term/Title.pm
-    version: 0.03
+    version: 0.04
 generated_by: Module::Build version 0.280801
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.2.html
@@ -25,3 +25,5 @@ no_index:
     - examples
     - inc
     - t
+configure_requires:
+  Module::Build: 0.28

@@ -6,6 +6,10 @@
 
 Revision history for Term-Title
 
+0.04
+
+    - Added Module::Build to 'configure_requires' in META.yml
+
 0.03 Wed Mar 19 09:48:44 EDT 2008
 
     - Added: support for 'screen' terminals (RT#34236 from David Precious)
