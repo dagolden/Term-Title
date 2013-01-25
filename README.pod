@@ -1,0 +1,110 @@
+=pod
+
+=head1 NAME
+
+Term::Title - Portable API to set the terminal titlebar
+
+=head1 VERSION
+
+version 0.001
+
+=head1 SYNOPSIS
+
+    use Term::Title 'set_titlebar';
+
+    set_titlebar("This goes into the title");
+
+    set_titlebar("Title", "And also print this to the terminal");
+
+=head1 DESCRIPTION
+
+Term::Title provides an abstraction for setting the titlebar (or title tab)
+across different types of terminals.  For *nix terminals, it prints the
+appropriate escape sequences to set the terminal title based on the value of
+C<$ENV{TERM}>.  On Windows, it uses L<Win32::Console> to set the title directly.  
+
+Currently, supported terminals include:
+
+=over 4
+
+=item *
+
+xterm
+
+=item *
+
+rxvt
+
+=item *
+
+screen
+
+=item *
+
+Win32 console
+
+=back
+
+=head1 USAGE
+
+=head2 set_titlebar
+
+    set_titlebar( $title, @optional_text );
+
+Sets the titlebar to C<$title> or clears the titlebar if C<$title> is 
+undefined.   
+
+On terminals that require printing escape codes to the terminal, a newline
+character is also printed to the terminal.  If C< @optional_text > is given, it
+will be printed to the terminal prior to the newline.  Thus, to keep terminal
+output cleaner, use C<set_titlebar()> in place of a C<print()> statement to
+set the titlebar and print at the same time.
+
+If the terminal is not supported, set_titlebar silently continues, printing
+C<@optional_text> if any.
+
+=head1 SEE ALSO
+
+=over 4
+
+=item *
+
+L<Win32::Console>
+
+=item *
+
+L<http://www.ibiblio.org/pub/Linux/docs/HOWTO/Xterm-Title>
+
+=back
+
+=for :stopwords cpan testmatrix url annocpan anno bugtracker rt cpants kwalitee diff irc mailto metadata placeholders metacpan
+
+=head1 SUPPORT
+
+=head2 Bugs / Feature Requests
+
+Please report any bugs or feature requests through the issue tracker
+at L<https://rt.cpan.org/Public/Dist/Display.html?Name=Term-Title>.
+You will be notified automatically of any progress on your issue.
+
+=head2 Source Code
+
+This is open source software.  The code repository is available for
+public review and contribution under the terms of the license.
+
+L<https://github.com/dagolden/term-title>
+
+  git clone git://github.com/dagolden/term-title.git
+
+=head1 AUTHOR
+
+David Golden <dagolden@cpan.org>
+
+=head1 COPYRIGHT AND LICENSE
+
+This software is Copyright (c) 2008 by David Golden.
+
+This is free software, licensed under:
+
+  The Apache License, Version 2.0, January 2004
+
