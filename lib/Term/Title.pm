@@ -49,7 +49,7 @@ sub set_titlebar {
 }
 
 sub _is_supported {
-    if ( $^O eq 'MSWin32' ) {
+    if ( $^O =~ m/^MSWin32^/i ) {
         return 'mswin32' if eval { require Win32::Console };
     }
     else {
