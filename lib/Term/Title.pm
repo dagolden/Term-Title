@@ -1,16 +1,8 @@
-# lib/Term/Title.pm
-# Copyright (c) 2008 by David Golden. All rights reserved.
-# Licensed under Apache License, Version 2.0 (the "License").
-# You may not use this file except in compliance with the License.
-# A copy of the License was distributed with this file or you may obtain a 
-# copy of the License from http://www.apache.org/licenses/LICENSE-2.0
-
 package Term::Title;
 use strict;
 use warnings;
-
-our $VERSION = '0.04';
-$VERSION = eval $VERSION; ## no critic
+# ABSTRACT: Portable API to set the terminal titlebar
+# VERSION
 
 use Exporter;
 our @ISA = 'Exporter';
@@ -73,17 +65,7 @@ sub _is_supported {
 
 __END__
 
-=begin wikidoc
-
-= NAME
-
-Term::Title - Portable API to set the terminal titlebar
-
-= VERSION
-
-This documentation describes version %%VERSION%%.
-
-= SYNOPSIS
+=head1 SYNOPSIS
 
     use Term::Title 'set_titlebar';
 
@@ -91,76 +73,44 @@ This documentation describes version %%VERSION%%.
 
     set_titlebar("Title", "And also print this to the terminal");
 
-= DESCRIPTION
+=head1 DESCRIPTION
 
 Term::Title provides an abstraction for setting the titlebar (or title tab)
 across different types of terminals.  For *nix terminals, it prints the
 appropriate escape sequences to set the terminal title based on the value of
-{$ENV{TERM}}.  On Windows, it uses [Win32::Console] to set the title directly.  
+C<$ENV{TERM}>.  On Windows, it uses L<Win32::Console> to set the title directly.  
 
 Currently, supported terminals include:
 
+=for :list
 * xterm
 * rxvt
 * screen
 * Win32 console
 
-= USAGE
+=head1 USAGE
 
-== {set_titlebar()}
+=head2 set_titlebar
 
     set_titlebar( $title, @optional_text );
 
-Sets the titlebar to {$title} or clears the titlebar if {$title} is 
+Sets the titlebar to C<$title> or clears the titlebar if C<$title> is 
 undefined.   
 
 On terminals that require printing escape codes to the terminal, a newline
-character is also printed to the terminal.  If { @optional_text } is given, it
+character is also printed to the terminal.  If C< @optional_text > is given, it
 will be printed to the terminal prior to the newline.  Thus, to keep terminal
-output cleaner, use {set_titlebar()} in place of a {print()} statement to
+output cleaner, use C<set_titlebar()> in place of a C<print()> statement to
 set the titlebar and print at the same time.
 
 If the terminal is not supported, set_titlebar silently continues, printing
-{ @optional_text } if any.
+C<@optional_text> if any.
 
-= BUGS
+=head1 SEE ALSO
 
-Please report any bugs or feature using the CPAN Request Tracker.  
-Bugs can be submitted through the web interface at 
-[http://rt.cpan.org/Dist/Display.html?Queue=Term-Title]
-
-When submitting a bug or request, please include a test-file or a patch to an
-existing test-file that illustrates the bug or desired feature.
-
-= SEE ALSO
-
-* [Win32::Console]
-* [http://www.ibiblio.org/pub/Linux/docs/HOWTO/Xterm-Title]
-
-= AUTHOR
-
-David A. Golden (DAGOLDEN)
-
-= COPYRIGHT AND LICENSE
-
-Copyright (c) 2008 by David A. Golden. All rights reserved.
-
-Licensed under Apache License, Version 2.0 (the "License").
-You may not use this file except in compliance with the License.
-A copy of the License was distributed with this file or you may obtain a 
-copy of the License from http://www.apache.org/licenses/LICENSE-2.0
-
-Files produced as output though the use of this software, shall not be
-considered Derivative Works, but shall be considered the original work of the
-Licensor.
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-
-=end wikidoc
+=for :list
+* L<Win32::Console>
+* L<http://www.ibiblio.org/pub/Linux/docs/HOWTO/Xterm-Title>
 
 =cut
 
