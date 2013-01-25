@@ -28,18 +28,18 @@ my %terminal = (
     },
 );
 
-sub set_titlebar {
-    my ($title, @optional) = @_;
+sub _set {
+    my ($type_cb, $types, $title, @optional) = @_;
     $title = q{ } unless defined $title;
-    my $type = _is_supported();
+    my $type = $type_cb->();
 
     if ( $type ) {
-        if ( ref $terminal{$type} eq 'CODE' ) {
-            $terminal{$type}->( $title, @optional );
+        if ( ref $types->{$type} eq 'CODE' ) {
+            $types->{$type}->( $title, @optional );
         }
-        elsif (ref $terminal{$type} eq 'HASH' ) {
-            print STDOUT $terminal{$type}{pre},  $title, 
-                         $terminal{$type}{post}, @optional, "\n";
+        elsif (ref $types->{$type} eq 'HASH' ) {
+            print STDOUT $types->{$type}{pre},  $title,
+                         $types->{$type}{post}, @optional, "\n";
         }
     }
     elsif ( @optional ) {
@@ -47,6 +47,8 @@ sub set_titlebar {
     }
     return;
 }
+
+sub set_titlebar { _set(\&_is_supported, \%terminal, @_) }
 
 sub _is_supported {
     if ( $^O =~ m/^MSWin32^/i ) {
