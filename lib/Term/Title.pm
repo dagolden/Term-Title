@@ -6,7 +6,7 @@ use warnings;
 
 use Exporter;
 our @ISA = 'Exporter';
-our @EXPORT_OK = qw/set_titlebar/;
+our @EXPORT_OK = qw/set_titlebar set_tab_title/;
 
 # encodings by terminal type -- except for mswin32 get matched as regex
 # against $ENV{TERM}
@@ -25,6 +25,16 @@ my %terminal = (
         my $c = Win32::Console->new();
         $c->Title($title);
         print STDOUT @optional, "\n";
+    },
+);
+
+my %terminal_tabs = (
+    'iterm2' => {
+        is_supported  => sub {
+            $ENV{TERM_PROGRAM} and $ENV{TERM_PROGRAM} eq 'iTerm.app'
+        },
+        pre => "\033]1;",
+        post => "\007",
     },
 );
 
@@ -50,6 +60,8 @@ sub _set {
 
 sub set_titlebar { _set(\&_is_supported, \%terminal, @_) }
 
+sub set_tab_title { _set(\&_is_supported_tabs, \%terminal_tabs, @_) }
+
 sub _is_supported {
     if ( $^O =~ m/^MSWin32^/i ) {
         return 'mswin32' if eval { require Win32::Console };
@@ -60,6 +72,14 @@ sub _is_supported {
             return $k if $ENV{TERM} =~ /^(?:$k)/;
         }
     }
+    return;
+}
+
+sub _is_supported_tabs {
+    for my $k (keys %terminal_tabs) {
+        return $k if $terminal_tabs{$k}{is_supported}->();
+    }
+
     return;
 }
 
@@ -75,14 +95,19 @@ __END__
 
     set_titlebar("Title", "And also print this to the terminal");
 
+    set_tab_title("This goes into the tab title");
+
+    set_tab_title("Tab Title", "And also print this to the terminal");
+
 =head1 DESCRIPTION
 
-Term::Title provides an abstraction for setting the titlebar (or title tab)
+Term::Title provides an abstraction for setting the titlebar or the tab title
 across different types of terminals.  For *nix terminals, it prints the
-appropriate escape sequences to set the terminal title based on the value of
-C<$ENV{TERM}>.  On Windows, it uses L<Win32::Console> to set the title directly.  
+appropriate escape sequences to set the terminal or tab title based on the
+value of C<$ENV{TERM}>.  On Windows, it uses L<Win32::Console> to set the
+title directly.
 
-Currently, supported terminals include:
+Currently, changing the titlebar is supported in these terminals:
 
 =for :list
 * xterm
@@ -90,6 +115,11 @@ Currently, supported terminals include:
 * screen
 * iTerm2.app
 * Win32 console
+
+The terminals that support changing the tab title include:
+
+=for :list
+* iTerm2.app
 
 =head1 USAGE
 
@@ -108,6 +138,12 @@ set the titlebar and print at the same time.
 
 If the terminal is not supported, set_titlebar silently continues, printing
 C<@optional_text> if any.
+
+=head2 set_tab_title
+
+    set_tab_title( $title, @optional_text );
+
+Has the exact same semantics as the L</set_titlebar> but changes the tab title.
 
 =head1 SEE ALSO
 

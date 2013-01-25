@@ -10,7 +10,7 @@ use warnings;
 
 use Test::More;
 
-plan tests => 5;
+plan tests => 8;
 
 #--------------------------------------------------------------------------#
 # y_n
@@ -36,11 +36,13 @@ sub y_n {
 
 require_ok( 'Term::Title' );
 
-can_ok( 'Term::Title', 'set_titlebar', '_is_supported' );
+can_ok( 'Term::Title', 'set_titlebar', 'set_tab_title',
+  '_is_supported', '_is_supported_tabs' );
 
-Term::Title->import('set_titlebar');
+Term::Title->import('set_titlebar', 'set_tab_title');
 
 can_ok( 'main', 'set_titlebar' );
+can_ok( 'main', 'set_tab_title' );
 
 # reclaim STDOUT from Test::More
 local *STDOUT;
@@ -50,10 +52,10 @@ diag "Term appears to be '$ENV{TERM}'";
 
 SKIP:
 {
-    skip "Automated testing not supported", 2
+    skip "Automated testing not supported title bars", 2
         if $ENV{AUTOMATED_TESTING};
 
-    skip "Term::Title not supported on this terminal type", 2
+    skip "Term::Title (set term title) not supported on this terminal type", 2
         unless Term::Title::_is_supported();
 
     my $phrase = "Hello";
@@ -61,13 +63,39 @@ SKIP:
     set_titlebar("[$phrase]","# Setting title to ", "'[$phrase]'");
     print STDERR "\n#  (y/n)\n";
     my $y_n = y_n(
-        "Do you see '[$phrase]' in the title bar (or tab) of this window?"
+        "Do you see '[$phrase]' in the title bar of this window?"
     );
     ok( $y_n, "Title set correctly" );
 
     # clear
     set_titlebar();
-    $y_n = y_n( "Has the title bar (or tab) been cleared?" );
+    $y_n = y_n( "Has the title bar been cleared?" );
     ok( $y_n, "Title cleared correctly" );
 
+    set_titlebar('set_titlebar() works!');
+}
+
+SKIP:
+{
+    skip "Automated testing not supported for tab titles", 2
+        if $ENV{AUTOMATED_TESTING};
+
+    skip "Term::Title (set tab title) not supported on this terminal type", 2
+        unless Term::Title::_is_supported_tabs();
+
+    my $phrase = "Hello";
+
+    set_tab_title("[$phrase]","# Setting title to ", "'[$phrase]'");
+    print STDERR "\n#  (y/n)\n";
+    my $y_n = y_n(
+        "Do you see '[$phrase]' in the tab title of this window?"
+    );
+    ok( $y_n, "Tab title set correctly" );
+
+    # clear
+    set_tab_title();
+    $y_n = y_n( "Has the tab title been cleared?" );
+    ok( $y_n, "Tab title cleared correctly" );
+    
+    set_tab_title('set_tab_title() works!');
 }
