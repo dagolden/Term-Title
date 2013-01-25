@@ -86,6 +86,7 @@ Currently, supported terminals include:
 * xterm
 * rxvt
 * screen
+* iTerm2.app
 * Win32 console
 
 =head1 USAGE
