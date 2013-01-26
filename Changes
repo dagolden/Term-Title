@@ -2,6 +2,8 @@ Revision history for Term-Title
 
 {{$NEXT}}
 
+0.04      2013-01-26 15:59:42 America/New_York
+
     - Mention iTerm2.app support (MELO)
 
     - Support Windows builds that set $^O to lower-case mswin32 (MELO)
