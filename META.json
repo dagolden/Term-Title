@@ -58,7 +58,7 @@
    "provides" : {
       "Term::Title" : {
          "file" : "lib/Term/Title.pm",
-         "version" : "0.001"
+         "version" : "0.04"
       }
    },
    "release_status" : "stable",
@@ -74,6 +74,6 @@
          "web" : "https://github.com/dagolden/term-title"
       }
    },
-   "version" : "0.001"
+   "version" : "0.04"
 }
 

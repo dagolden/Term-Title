@@ -2,8 +2,6 @@ Revision history for Term-Title
 
 {{$NEXT}}
 
-0.001     2013-01-26 15:55:24 America/New_York
-
     - Mention iTerm2.app support (MELO)
 
     - Support Windows builds that set $^O to lower-case mswin32 (MELO)
@@ -13,10 +11,6 @@ Revision history for Term-Title
     - Add set_tab_title() (MELO)
 
     - Distribution management converted to Dist::Zilla
-
-0.04
-
-    - Added Module::Build to 'configure_requires' in META.yml
 
 0.03 Wed Mar 19 09:48:44 EDT 2008
 
