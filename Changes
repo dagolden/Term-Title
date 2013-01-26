@@ -2,6 +2,13 @@ Revision history for Term-Title
 
 {{$NEXT}}
 
+    - Mention iTerm2.app support (MELO)
+
+    - Support Windows builds that set $^O to lower-case mswin32 (MELO)
+
+    - Extract core logic of set_titlebar() into _set() (MELO)
+
+    - Add set_tab_title() (MELO)
 
     - Distribution management converted to Dist::Zilla
 
