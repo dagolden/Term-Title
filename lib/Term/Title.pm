@@ -89,7 +89,7 @@ __END__
 
 =head1 SYNOPSIS
 
-    use Term::Title 'set_titlebar';
+    use Term::Title 'set_titlebar', 'set_tab_title';
 
     set_titlebar("This goes into the title");
 
