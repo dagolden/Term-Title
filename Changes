@@ -2,6 +2,8 @@ Revision history for Term-Title
 
 {{$NEXT}}
 
+    - Fix missing import in SYNOPSIS (MELO)
+
 0.05      2013-01-26 23:10:52 America/New_York
 
     - Make Win32::Console a prereq only on Win32 (again)
