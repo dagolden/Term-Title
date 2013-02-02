@@ -63,7 +63,7 @@ sub set_titlebar { _set(\&_is_supported, \%terminal, @_) }
 sub set_tab_title { _set(\&_is_supported_tabs, \%terminal_tabs, @_) }
 
 sub _is_supported {
-    if ( $^O =~ m/^MSWin32^/i ) {
+    if ( lc($^O) eq 'mswin32' ) {
         return 'mswin32' if eval { require Win32::Console };
     }
     else {
