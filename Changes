@@ -2,6 +2,10 @@ Revision history for Term-Title
 
 {{$NEXT}}
 
+    [FIXED]
+
+    - Tests now skip when NONINTERACTIVE|AUTOMATED_TESTING is set
+
 0.07      2013-02-02 20:29:07 America/New_York
 
     - Fix for MSWin32 broken in 0.04 (CHORNY)
