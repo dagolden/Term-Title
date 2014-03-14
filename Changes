@@ -2,6 +2,8 @@ Revision history for Term-Title
 
 {{$NEXT}}
 
+0.08      2014-03-14 15:40:03+01:00 Europe/Paris
+
     [FIXED]
 
     - Tests now skip when NONINTERACTIVE|AUTOMATED_TESTING is set
