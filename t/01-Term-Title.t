@@ -10,7 +10,12 @@ use warnings;
 
 use Test::More;
 
-plan tests => 8;
+if ( $ENV{NONINTERACTIVE_TESTING} || $ENV{AUTOMATED_TESTING} ) {
+    plan skip_all => "test require user interaction";
+}
+else {
+    plan tests => 8;
+}
 
 #--------------------------------------------------------------------------#
 # y_n
@@ -62,7 +67,7 @@ SKIP:
 
     set_titlebar( "[$phrase]", "# Setting title to ", "'[$phrase]'" );
     print STDERR "\n#  (y/n)\n";
-    my $y_n = y_n( "Do you see '[$phrase]' in the title bar of this window?" );
+    my $y_n = y_n("Do you see '[$phrase]' in the title bar of this window?");
     ok( $y_n, "Title set correctly" );
 
     # clear
@@ -85,7 +90,7 @@ SKIP:
 
     set_tab_title( "[$phrase]", "# Setting title to ", "'[$phrase]'" );
     print STDERR "\n#  (y/n)\n";
-    my $y_n = y_n( "Do you see '[$phrase]' in the tab title of this window?" );
+    my $y_n = y_n("Do you see '[$phrase]' in the tab title of this window?");
     ok( $y_n, "Tab title set correctly" );
 
     # clear
