@@ -5,7 +5,7 @@ use warnings;
 # VERSION
 
 use Exporter;
-our @ISA = 'Exporter';
+our @ISA       = 'Exporter';
 our @EXPORT_OK = qw/set_titlebar set_tab_title/;
 
 # encodings by terminal type -- except for mswin32 get matched as regex
@@ -13,15 +13,15 @@ our @EXPORT_OK = qw/set_titlebar set_tab_title/;
 # code ref gets title and text to print
 my %terminal = (
     'xterm|rxvt' => {
-        pre => "\033]2;",
+        pre  => "\033]2;",
         post => "\007",
     },
     'screen' => {
-        pre => "\ek",
+        pre  => "\ek",
         post => "\e\\",
     },
     'mswin32' => sub {
-        my ($title, @optional) = @_;
+        my ( $title, @optional ) = @_;
         my $c = Win32::Console->new();
         $c->Title($title);
         print STDOUT @optional, "\n";
@@ -30,37 +30,36 @@ my %terminal = (
 
 my %terminal_tabs = (
     'iterm2' => {
-        is_supported  => sub {
-            $ENV{TERM_PROGRAM} and $ENV{TERM_PROGRAM} eq 'iTerm.app'
+        is_supported => sub {
+            $ENV{TERM_PROGRAM} and $ENV{TERM_PROGRAM} eq 'iTerm.app';
         },
-        pre => "\033]1;",
+        pre  => "\033]1;",
         post => "\007",
     },
 );
 
 sub _set {
-    my ($type_cb, $types, $title, @optional) = @_;
+    my ( $type_cb, $types, $title, @optional ) = @_;
     $title = q{ } unless defined $title;
     my $type = $type_cb->();
 
-    if ( $type ) {
+    if ($type) {
         if ( ref $types->{$type} eq 'CODE' ) {
             $types->{$type}->( $title, @optional );
         }
-        elsif (ref $types->{$type} eq 'HASH' ) {
-            print STDOUT $types->{$type}{pre},  $title,
-                         $types->{$type}{post}, @optional, "\n";
+        elsif ( ref $types->{$type} eq 'HASH' ) {
+            print STDOUT $types->{$type}{pre}, $title, $types->{$type}{post}, @optional, "\n";
         }
     }
-    elsif ( @optional ) {
+    elsif (@optional) {
         print STDOUT @optional, "\n";
     }
     return;
 }
 
-sub set_titlebar { _set(\&_is_supported, \%terminal, @_) }
+sub set_titlebar { _set( \&_is_supported, \%terminal, @_ ) }
 
-sub set_tab_title { _set(\&_is_supported_tabs, \%terminal_tabs, @_) }
+sub set_tab_title { _set( \&_is_supported_tabs, \%terminal_tabs, @_ ) }
 
 sub _is_supported {
     if ( lc($^O) eq 'mswin32' ) {
@@ -76,7 +75,7 @@ sub _is_supported {
 }
 
 sub _is_supported_tabs {
-    for my $k (keys %terminal_tabs) {
+    for my $k ( keys %terminal_tabs ) {
         return $k if $terminal_tabs{$k}{is_supported}->();
     }
 
