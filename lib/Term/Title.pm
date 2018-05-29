@@ -36,6 +36,13 @@ my %terminal_tabs = (
         pre  => "\033]1;",
         post => "\007",
     },
+    'konsole' => {
+        is_supported => sub {
+            $ENV{KONSOLE_PROFILE_NAME}
+        },
+        pre  => "\033]30;",
+        post => "\007",
+    },
 );
 
 sub _set {
