@@ -2,7 +2,8 @@ package Term::Title;
 use strict;
 use warnings;
 # ABSTRACT: Portable API to set the terminal titlebar
-# VERSION
+
+our $VERSION = '0.09';
 
 use Exporter;
 our @ISA       = 'Exporter';
@@ -38,7 +39,7 @@ my %terminal_tabs = (
     },
     'konsole' => {
         is_supported => sub {
-            $ENV{KONSOLE_PROFILE_NAME}
+            $ENV{KONSOLE_PROFILE_NAME};
         },
         pre  => "\033]30;",
         post => "\007",
