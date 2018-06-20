@@ -3,7 +3,7 @@ use strict;
 use warnings;
 # ABSTRACT: Portable API to set the terminal titlebar
 
-our $VERSION = '0.09';
+our $VERSION = '0.10';
 
 use Exporter;
 our @ISA       = 'Exporter';

@@ -2,6 +2,8 @@ Revision history for Term-Title
 
 {{$NEXT}}
 
+0.09      2018-06-20 14:49:46-06:00 America/Denver
+
     [ADDED]
 
     - Support set_tab_title on konsole
